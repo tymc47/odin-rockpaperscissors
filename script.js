@@ -14,7 +14,7 @@ function getComputerChoice(){
 
 function getPlayerChoice(){
     let hand = prompt("Please input your choice here: ")
-    //return a string with first letter capitalized only
+    //return the input with first letter capitalized only
     return hand.charAt(0).toUpperCase() + hand.slice(1).toLowerCase();
 }
 
@@ -24,8 +24,10 @@ function playRound(compSelection, playSelection){
 
     if (valueDiff == 0) return "draw"
 
+    //Computer wins condition
     if (valueDiff == 1 || valueDiff == -2) return "computer"
 
+    //Player wins condition
     if (valueDiff == -1 || valueDiff == 2) return "player"
 
 }
@@ -35,8 +37,8 @@ function game(){
     let playCount = 0;
 
     for (let i = 1; i <= 5; i++){
+        
         let playerhand = getPlayerChoice();
-        console.log(playerhand);
         let computerhand = getComputerChoice();
         let winner = playRound(computerhand, playerhand);
 
