@@ -47,13 +47,12 @@ function score(computer, player, winner){
 
     //display winner of the game if any score reaches 5
     if (compScore == 5 || playScore == 5){
-        const finalresult = document.createElement('div')
+        let finalresult = ""
         
-        if (compScore == 5) finalwinner = "lose!! Refresh browser to play again."
-        else finalwinner = "win!! Refresh browser to play again."
+        if (compScore == 5) finalresult = "You lose!! Refresh browser to play again."
+        else finalresult = "You win!! Refresh browser to play again."
 
-        finalresult.textContent = "You " + finalwinner;
-        document.querySelector('.results').appendChild(finalresult);
+        document.querySelector('.roundresult').textContent = finalresult;
     }
 }
 
