@@ -11,13 +11,6 @@ function getComputerChoice(){
     return hands[Math.floor(Math.random() * 3)]; 
 }
 
-
-function getPlayerChoice(){
-    let hand = prompt("Please input your choice here: ")
-    //return the input with first letter capitalized only
-    return hand.charAt(0).toUpperCase() + hand.slice(1).toLowerCase();
-}
-
 function playRound(compSelection, playSelection){
     //calc the hand value difference using the hands array
     const valueDiff = hands.indexOf(compSelection) - hands.indexOf(playSelection);;
@@ -32,27 +25,50 @@ function playRound(compSelection, playSelection){
 
 }
 
-function game(){
-    let compCount = 0;
-    let playCount = 0;
+function score(computer, player, winner){
+    let result = ""
+    let finalwinner = ""
 
-    for (let i = 1; i <= 5; i++){
+    if (winner == "computer"){
+        compScore++;
+        result = "You lose this round!"
+    }
+    if (winner == "player"){
+        playScore++;
+        result = "You win this round!"
+    }
+    if (winner == "draw"){
+        result = "It's a draw!"
+    }
+
+    document.querySelector('.roundresult').textContent = result;
+    document.querySelector('.compScore').textContent = compScore;
+    document.querySelector('.playScore').textContent = playScore;
+
+    //display winner of the game if any score reaches 5
+    if (compScore == 5 || playScore == 5){
+        const finalresult = document.createElement('div')
         
-        let playerhand = getPlayerChoice();
-        let computerhand = getComputerChoice();
-        let winner = playRound(computerhand, playerhand);
+        if (compScore == 5) finalwinner = "lose!! Refresh browser to play again."
+        else finalwinner = "win!! Refresh browser to play again."
 
-        if (winner == "player"){
-            playCount++;
-            console.log("Round: " + i + ". You win! " + playerhand + " beats " + computerhand);
-        } else if (winner == "computer"){
-            compCount++;
-            console.log("Round: " + i + ". You lose! " + computerhand + " beats " + playerhand);
-        } else {
-            console.log("Round: " + i + ". Draw! ")
-        }
-        console.log("Your socre: " + playCount + ". Computer score: " + compCount + ".")
-    }   
+        finalresult.textContent = "You " + finalwinner;
+        document.querySelector('.results').appendChild(finalresult);
+    }
 }
 
-game();
+
+
+const choices = document.querySelectorAll('button');
+let compScore = 0;
+let playScore = 0;
+
+choices.forEach(choice => choice.addEventListener('click', function(){
+    //create a hand for computer
+    const computerHand = getComputerChoice()
+    //get the winner of the round by calling playRound
+    let winner = playRound(computerHand, choice.value)
+    
+    //record and display the score with the function score
+    score(computerHand, choice.value, winner);
+}));
